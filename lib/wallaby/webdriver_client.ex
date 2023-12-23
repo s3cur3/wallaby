@@ -547,12 +547,15 @@ defmodule Wallaby.WebdriverClient do
     end
   end
 
+  # https://github.com/SeleniumHQ/selenium/blob/trunk/java/src/org/openqa/selenium/logging/LogType.java#L36
+  @type log_type :: :browser | :client | :driver | :performance | :profiler | :server
+
   @doc """
   Retrieves logs from the browser
   """
-  @spec log(Session.t() | Element.t()) :: {:ok, [map]}
-  def log(session) do
-    with {:ok, resp} <- request(:post, "#{session.session_url}/log", %{type: "browser"}) do
+  @spec log(Session.t() | Element.t(), log_type()) :: {:ok, [map]}
+  def log(session, type \\ :browser) do
+    with {:ok, resp} <- request(:post, "#{session.session_url}/log", %{type: type}) do
       Map.fetch(resp, "value")
     end
   end
