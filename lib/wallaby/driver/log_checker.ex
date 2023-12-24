@@ -9,7 +9,8 @@ defmodule Wallaby.Driver.LogChecker do
 
     performance_logs =
       case logging_level(session, :performance) do
-        level when level in ["ALL", "DEBUG"] ->
+        # Log levels: https://chromium.googlesource.com/experimental/chromium/src/+/5c38bafbf04d6196493d4bec1a851b45a1c07d12/chrome/test/chromedriver/logging.cc
+        level when level in ["ALL", "DEBUG", "INFO", "WARNING", "SEVERE"] ->
           {:ok, performance_logs} = driver.log(session, :performance)
           performance_logs
 
